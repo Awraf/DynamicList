@@ -1,0 +1,14 @@
+<ul *ngIf="listService.list.length;else emptyList">
+  <li *ngFor="let item of listService.list; let i = index">
+    <span [class.done]="item.completed">
+      <input type="checkbox" class="checkbox" [checked]="item.completed" (change)="onChange(item.id)">
+      <strong>{{i + 1}}</strong> {{item.caption}}
+    </span>
+    <small>{{item.date | date:'medium'}}</small>
+    <button class="rm" (click)="removeItem(item.id)">&times;</button>
+  </li>
+</ul>
+
+<ng-template #emptyList>
+  <p>List is empty.</p>
+</ng-template>
