@@ -9,9 +9,14 @@ import {IListItem, ListService} from './list.service';
 export class ListComponent implements OnInit {
   public list: IListItem[];
   public groups: string[];
+  public selectedGroup: string;
 
   private updateList(): void {
-    this.list = this.listService.list;
+    if ( this.selectedGroup &&  this.selectedGroup !== 'all') {
+      this.list = this.listService.list.filter(item => item.group ===  this.selectedGroup);
+    } else {
+      this.list = this.listService.list;
+    }
   }
 
   constructor(private listService: ListService) {
@@ -20,6 +25,7 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.selectedGroup = 'all';
   }
 
   onChange(id: number): void {
@@ -27,13 +33,8 @@ export class ListComponent implements OnInit {
     this.list = this.listService.list;
   }
 
-  onChangeGroup(group) {
-    console.log('Group is:', group);
-    if (group && group !== 'all') {
-      this.list = this.listService.list.filter(item => item.group === group);
-    } else {
+  onChangeGroup() {
       this.updateList();
-    }
   }
 
   removeItem(id: number): void {
