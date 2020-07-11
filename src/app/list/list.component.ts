@@ -11,17 +11,13 @@ export class ListComponent implements OnInit {
   public groups: string[];
   public selectedGroup: string;
 
-  private updateList(): void {
-    if ( this.selectedGroup &&  this.selectedGroup !== 'all') {
-      this.list = this.listService.list.filter(item => item.group ===  this.selectedGroup);
-    } else {
-      this.list = this.listService.list;
-    }
+  private updateList() {
+    this.list = this.listService.getItems(this.selectedGroup);
   }
 
   constructor(private listService: ListService) {
-    this.updateList();
     this.groups = this.listService.getGroups();
+    this.list = this.listService.getItems();
   }
 
   ngOnInit(): void {
@@ -30,7 +26,6 @@ export class ListComponent implements OnInit {
 
   onChange(id: number): void {
     this.listService.onChange(id);
-    this.list = this.listService.list;
   }
 
   onChangeGroup() {

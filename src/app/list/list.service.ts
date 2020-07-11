@@ -10,12 +10,20 @@ export interface IListItem {
 
 @Injectable({providedIn: 'root'})
 export class ListService {
-  public list: IListItem[] = [
+  private list: IListItem[] = [
     {id: 1, group: 'shop', caption: 'Item1', completed: false, date: new Date()},
     {id: 2, group: 'remove', caption: 'Item2', completed: true},
     {id: 3, group: 'shop', caption: 'Item3', completed: false, date: new Date()},
     {id: 4, group: 'obsoleted', caption: 'Item4', completed: false, date: new Date()},
   ];
+
+  getItems(group?: string): IListItem[] {
+    if (group && group !== 'all') {
+      return this.list.filter(item => item.group === group);
+    } else {
+      return this.list;
+    }
+  }
 
   getGroups(): string[] {
     const groups = this.list.map(item => item.group);
