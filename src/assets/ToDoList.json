@@ -1,0 +1,31 @@
+{
+  "listData": [
+    {
+      "id": 1,
+      "group": "shop",
+      "caption": "Item1",
+      "completed": false,
+      "date": "2020-05-14"
+    },
+    {
+      "id": 2,
+      "group": "remove",
+      "caption": "Item2",
+      "completed": true
+    },
+    {
+      "id": 3,
+      "group": "shop",
+      "caption": "Item3",
+      "completed": false,
+      "date": "2020-12-14"
+    },
+    {
+      "id": 4,
+      "group": "obsoleted",
+      "caption": "Item4",
+      "completed": false,
+      "date": "2020-05-28"
+    }
+  ]
+}

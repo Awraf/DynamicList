@@ -1,4 +1,4 @@
-<div>
+<div class="container">
   <select id="Id" class="hideLabel form-control" name="Id" [(ngModel)]="selectedGroup" (change)="onChangeGroup()">
     <option selected="" value="all" [value]="'all'">All items</option>
     <option *ngFor="let group of groups" [value]="group">
@@ -6,8 +6,9 @@
     </option>
   </select>
 </div>
-<ul *ngIf="list.length;else emptyList">
-  <li *ngFor="let item of list; let i = index">
+<div class="container">
+  <ul *ngIf="list.length;else emptyList">
+    <li *ngFor="let item of list; let i = index">
     <span [class.done]="item.completed">
       <input type="checkbox" class="checkbox" [checked]="item.completed" (change)="onChange(item.id)">
       <span class="number">{{i + 1}}.</span>
@@ -16,11 +17,14 @@
         <span class="group" [innerHTML]="item.group | textFormat: 'italic'"></span>
       </span>
     </span>
-    <small>{{item.date | date:'medium'}}</small>
-    <button class="rm" (click)="removeItem(item.id)">&times;</button>
-  </li>
-</ul>
+      <div class="buttons">
+        <i class="fa fa-info" *ngIf="item.date" [title]="item.date | date:'medium'"></i>
+        <i class="fa fa-remove" (click)="removeItem(item.id)"></i>
+      </div>
+    </li>
+  </ul>
 
-<ng-template #emptyList>
-  <p>List is empty.</p>
-</ng-template>
+  <ng-template #emptyList>
+    <p>List is empty.</p>
+  </ng-template>
+</div>

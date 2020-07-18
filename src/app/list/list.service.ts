@@ -1,4 +1,7 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import { map, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 export interface IListItem {
   id: number;
@@ -10,33 +13,57 @@ export interface IListItem {
 
 @Injectable({providedIn: 'root'})
 export class ListService {
-  private list: IListItem[] = [
-    {id: 1, group: 'shop', caption: 'Item1', completed: false, date: new Date()},
-    {id: 2, group: 'remove', caption: 'Item2', completed: true},
-    {id: 3, group: 'shop', caption: 'Item3', completed: false, date: new Date()},
-    {id: 4, group: 'obsoleted', caption: 'Item4', completed: false, date: new Date()},
-  ];
+  private list$: Observable<IListItem[]>;
 
-  getItems(group?: string): IListItem[] {
-    if (group && group !== 'all') {
-      return this.list.filter(item => item.group === group);
+  constructor(private httpClient: HttpClient) {
+  }
+
+  initData(): void {
+    this.list$ = this.httpClient.get<any>('assets/ToDoList.json')
+      .pipe(
+        map(data => {
+          const list = data.listData;
+          return list.map(item => {
+            return {
+              id: item.id,
+              group: item.group,
+              caption: item.caption,
+              completed: item.completed,
+              date: item.date
+            };
+          });
+        })
+      );
+  }
+
+  getItems(defaultGroup: string, group?: string): Observable<IListItem[]> {
+    if (group && group !== defaultGroup) {
+      return this.list$.pipe(
+        map(data => data.filter(item => item.group === group))
+      );
     } else {
-      return this.list;
+      return this.list$;
     }
   }
 
-  getGroups(): string[] {
-    const groups = this.list.map(item => item.group);
-    return [...new Set(groups)];
+  getGroups(): Observable<string[]> {
+    return this.list$.pipe(
+      map(data => {
+        return [...data.map(item => item.group)];
+      })
+    );
   }
 
-
   onChange(id: number): void {
-    const indx = this.list.findIndex(x => x.id === id);
-    this.list[indx].completed = !this.list[indx].completed;
+    this.list$.pipe(
+      map(data => data.find(item => item.id === id)),
+      tap(item => item.completed = !item.completed)
+    );
   }
 
   remove(id: number): void {
-    this.list = this.list.filter(l => l.id !== id);
+    this.list$ = this.list$.pipe(
+      map(item => item.filter(element => element.id !== id))
+    );
   }
 }
