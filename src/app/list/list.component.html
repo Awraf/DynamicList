@@ -18,8 +18,12 @@
       </span>
     </span>
       <div class="buttons">
-        <i class="fa fa-info" *ngIf="item.date" [title]="item.date | date:'medium'"></i>
-        <i class="fa fa-remove" (click)="removeItem(item.id)"></i>
+        <span class="material-icons info" *ngIf="item.date" [title]="item.date | date:'medium'">
+          help_outline
+        </span>
+        <span class="material-icons close" (click)="removeItem(item.id)">
+          close
+        </span>
       </div>
     </li>
   </ul>

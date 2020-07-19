@@ -26,7 +26,9 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
     this.listService.initData();
     this.listService.getGroups()
-      .subscribe(groups => this.groups = groups);
+      .subscribe(groups => {
+        this.groups = groups;
+      });
     this.updateList();
     this.selectedGroup = this.DEFAULT_SELECTED_GROUP;
   }

@@ -37,7 +37,7 @@
     display: flex;
     align-items: center;
 
-    i {
+    span {
       margin-right: 0.5rem;
       border-radius: 50%;
       color: #fff;
@@ -49,13 +49,13 @@
       justify-content: center;
       align-items: center;
 
-      &.fa-remove {
+      &.close {
         $color: red;
         cursor: pointer;
         background: $color;
       }
 
-      &.fa-info {
+      &.info {
         $color: green;
         cursor: help;
         background: $color;

@@ -49,7 +49,7 @@ export class ListService {
   getGroups(): Observable<string[]> {
     return this.list$.pipe(
       map(data => {
-        return [...data.map(item => item.group)];
+        return [...new Set(data.map(item => item.group))];
       })
     );
   }
